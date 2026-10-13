@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 64">
+  <!-- GIITX logo placeholder — replace with the official logo when ready -->
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FF8533"/>
+      <stop offset="100%" stop-color="#E55D00"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(8,8)">
+    <path d="M24 3 42 13.5v21L24 45 6 34.5v-21L24 3z" fill="url(#g)"/>
+    <path d="M31.5 20.5A8 8 0 1 0 32 30h-8v-4.5h11.5v2.2A12.5 12.5 0 1 1 33 17.6l-1.5 2.9z" fill="#0A0A0A" opacity="0.92"/>
+    <circle cx="24" cy="24" r="3.2" fill="#0A0A0A" opacity="0.92"/>
+  </g>
+  <text x="68" y="43" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="800" letter-spacing="1" fill="#0A0A0A">GIITX</text>
+</svg>
