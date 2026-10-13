@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: #ff6a00;
+  color: #ffffff;
+}
+
+/* Subtle grid pattern for dark hero sections */
+.bg-grid-dark {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Subtle grid pattern for light sections */
+.bg-grid-light {
+  background-image:
+    linear-gradient(rgba(10, 10, 10, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10, 10, 10, 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Orange gradient headline text */
+.text-gradient-orange {
+  background: linear-gradient(100deg, #ff6a00 10%, #ffa76b 60%, #ff6a00 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Dotted pattern */
+.bg-dots {
+  background-image: radial-gradient(rgba(255, 106, 0, 0.35) 1.5px, transparent 1.5px);
+  background-size: 22px 22px;
+}
+
+/* Thin custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+::-webkit-scrollbar-thumb {
+  background: #ff6a00;
+  border-radius: 8px;
+  border: 2px solid #0a0a0a;
+}
