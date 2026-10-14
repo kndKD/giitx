@@ -25,10 +25,16 @@ const NODES = [
  * The backdrop is GIITX's own logo geometry: two interlocking loops
  * (white + orange) with a single orange pulse travelling along the loop,
  * and four service nodes on the loop: Web, Mobile, Cloud, AI.
+ *
+ * Mobile fix: the backdrop loops are desktop-only (hidden below lg).
+ * On mobile the 42rem-wide SVG sat behind the headline, subcopy,
+ * pills and buttons, with loop lines crossing the text — not friendly.
+ * Mobile already shows the Web/Mobile/Cloud/AI pills, so it gets a
+ * clean solid background instead.
  */
 function InterlockBackdrop() {
   return (
-    <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+    <div className="pointer-events-none absolute inset-0 hidden lg:block" aria-hidden="true">
       <svg
         className="absolute -right-24 top-1/2 h-[42rem] w-[42rem] -translate-y-1/2 opacity-[0.16] lg:right-[-4rem] lg:h-[52rem] lg:w-[52rem]"
         viewBox="0 0 560 560"
