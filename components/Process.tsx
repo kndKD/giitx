@@ -27,8 +27,9 @@ const STEPS = [
 
 export default function Process() {
   return (
-    <section id="process" className="relative overflow-hidden bg-ink-950 py-24 lg:py-32">
-      <div className="bg-grid-dark absolute inset-0" aria-hidden="true" />
+    <section id="process" className="relative overflow-hidden bg-gradient-to-b from-ink-950 via-ink-900 to-ink-950 py-24 lg:py-32">
+      <div className="bg-grid-dark absolute inset-0 opacity-60" aria-hidden="true" />
+      <div className="pointer-events-none absolute inset-0 bg-white/[0.02]" aria-hidden="true" />
       <div
         className="absolute left-1/2 top-0 h-72 w-[42rem] -translate-x-1/2 rounded-full bg-brand-500/15 blur-[120px]"
         aria-hidden="true"
@@ -56,7 +57,7 @@ export default function Process() {
           />
           {STEPS.map((s, i) => (
             <Reveal key={s.n} delay={i * 0.12}>
-              <div className="relative">
+              <div className="relative rounded-2xl border border-white/10 bg-white/[0.04] p-6 shadow-[0_16px_40px_rgba(0,0,0,0.35)] backdrop-blur-xl">
                 <div className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full border border-brand-500/40 bg-ink-950 font-display text-lg font-bold text-brand-500 shadow-[0_0_30px_rgba(255,106,0,0.25)]">
                   {s.n}
                 </div>
@@ -72,7 +73,7 @@ export default function Process() {
         </div>
 
         <Reveal delay={0.2}>
-          <div className="mt-16 flex flex-col items-start justify-between gap-6 rounded-2xl border border-white/10 bg-white/[0.03] p-8 backdrop-blur sm:flex-row sm:items-center">
+          <div className="mt-16 flex flex-col items-start justify-between gap-6 rounded-2xl border border-white/15 bg-white/[0.06] p-8 shadow-[0_20px_50px_rgba(0,0,0,0.4)] backdrop-blur-xl sm:flex-row sm:items-center">
             <div>
               <p className="font-display text-xl font-bold text-white">
                 Typical engagement: 6–12 weeks to first launch

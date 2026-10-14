@@ -65,8 +65,9 @@ const SOCIALS = [
 
 export default function Footer() {
   return (
-    <footer className="bg-ink-950 text-white">
-      <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:py-20">
+    <footer className="relative overflow-hidden bg-gradient-to-b from-ink-950 via-ink-900 to-black text-white">
+      <div className="pointer-events-none absolute inset-0 bg-white/[0.02]" aria-hidden="true" />
+      <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:py-20">
         <div className="grid gap-12 lg:grid-cols-[1.2fr_2fr]">
           {/* Brand */}
           <div>
@@ -81,7 +82,7 @@ export default function Footer() {
                   key={s.name}
                   href={s.href}
                   aria-label={s.name}
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-white/60 transition-all hover:border-brand-500 hover:bg-brand-500 hover:text-white"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/[0.06] text-white/60 shadow-[0_10px_30px_rgba(0,0,0,0.35)] backdrop-blur-xl transition-all hover:border-brand-500 hover:bg-brand-500 hover:text-white"
                 >
                   {s.icon}
                 </a>

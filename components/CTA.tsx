@@ -5,7 +5,7 @@ import Reveal from "./Reveal";
 
 export default function CTA() {
   return (
-    <section id="contact" className="relative overflow-hidden">
+    <section className="relative overflow-hidden">
       <div className="bg-gradient-to-br from-brand-600 via-brand-500 to-brand-400">
         <div className="bg-grid-dark absolute inset-0 opacity-30" aria-hidden="true" />
         {/* Giant ghost text */}
@@ -28,20 +28,20 @@ export default function CTA() {
             </p>
             <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
               <Link
-                href="mailto:hello@giitx.com"
+                href="#contact"
                 className="rounded-full bg-ink-950 px-9 py-4 text-base font-semibold text-white shadow-[0_16px_50px_rgba(0,0,0,0.35)] transition-transform hover:scale-[1.03]"
               >
                 Start your project →
               </Link>
               <Link
-                href="mailto:hello@giitx.com"
+                href="#contact"
                 className="rounded-full border-2 border-white/60 px-9 py-[14px] text-base font-semibold text-white transition-colors hover:border-white hover:bg-white/10"
               >
-                hello@giitx.com
+                Fill in the contact form
               </Link>
             </div>
             <p className="mt-8 text-sm text-white/70">
-              Average response time: under 24 hours
+              Fill in the form below — we&apos;ll get back to you with next steps.
             </p>
           </Reveal>
         </div>
