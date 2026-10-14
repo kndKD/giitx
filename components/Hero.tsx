@@ -12,28 +12,86 @@ const fadeUp = {
   }),
 };
 
-const CODE_LINES = [
-  { n: "01", code: "const product = await giitx.build({", c: "text-white/90" },
-  { n: "02", code: "  idea: yourVision,", c: "text-brand-400" },
-  { n: "03", code: "  stack: ['web', 'mobile', 'cloud', 'ai'],", c: "text-white/70" },
-  { n: "04", code: "});", c: "text-white/90" },
-  { n: "05", code: "// → shipped. scaled. loved.", c: "text-white/40 italic" },
+const NODES = [
+  { label: "Web", className: "left-1/2 top-2 -translate-x-1/2", dot: "bg-brand-500" },
+  { label: "Mobile", className: "right-0 top-1/2 -translate-y-1/2", dot: "bg-white" },
+  { label: "Cloud", className: "bottom-2 left-1/2 -translate-x-1/2", dot: "bg-brand-500" },
+  { label: "AI", className: "left-0 top-1/2 -translate-y-1/2", dot: "bg-white" },
 ];
+
+/**
+ * Design A — Interlock hero.
+ * No grid, no dots, no code window, no generic glows.
+ * The backdrop is GIITX's own logo geometry: two interlocking loops
+ * (white + orange) with a single orange pulse travelling along the loop,
+ * and four service nodes on the loop: Web, Mobile, Cloud, AI.
+ */
+function InterlockBackdrop() {
+  return (
+    <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+      <svg
+        className="absolute -right-24 top-1/2 h-[42rem] w-[42rem] -translate-y-1/2 opacity-[0.16] lg:right-[-4rem] lg:h-[52rem] lg:w-[52rem]"
+        viewBox="0 0 560 560"
+        fill="none"
+      >
+        <circle cx="230" cy="280" r="175" stroke="#ffffff" strokeWidth="1.5" />
+        <circle cx="330" cy="280" r="175" stroke="#FF6A00" strokeWidth="1.5" />
+      </svg>
+    </div>
+  );
+}
+
+function InterlockVisual() {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
+      className="relative hidden lg:block"
+      aria-hidden="true"
+    >
+      <div className="relative mx-auto aspect-square max-w-[540px]">
+        <svg className="absolute inset-0 h-full w-full" viewBox="0 0 560 560" fill="none">
+          {/* Interlocking loops — white + orange, from the GIITX mark */}
+          <circle cx="230" cy="280" r="175" stroke="#ffffff" strokeOpacity="0.22" strokeWidth="2" />
+          <circle cx="330" cy="280" r="175" stroke="#FF6A00" strokeOpacity="0.55" strokeWidth="2" />
+          {/* Centre junction — where the loops interlock */}
+          <circle cx="280" cy="280" r="52" stroke="#ffffff" strokeOpacity="0.18" strokeWidth="1.5" />
+          <circle cx="280" cy="280" r="6" fill="#FF6A00" />
+          {/* Orange pulse travelling along the orange loop */}
+          <circle r="7" fill="#FF6A00">
+            <animateMotion dur="7s" repeatCount="indefinite" path="M 330 105 a 175 175 0 1 0 0.0001 0" />
+          </circle>
+          <circle r="3.5" fill="#ffffff">
+            <animateMotion dur="9s" begin="1.5s" repeatCount="indefinite" path="M 230 105 a 175 175 0 1 0 0.0001 0" />
+          </circle>
+        </svg>
+
+        {/* Service nodes on the loop */}
+        {NODES.map((n) => (
+          <span
+            key={n.label}
+            className={`absolute flex items-center gap-2 rounded-full border border-white/15 bg-ink-900/90 px-4 py-2 text-sm font-semibold text-white shadow-[0_16px_40px_rgba(0,0,0,0.45)] backdrop-blur ${n.className}`}
+          >
+            <span className={`h-2.5 w-2.5 rounded-full ${n.dot}`} />
+            {n.label}
+          </span>
+        ))}
+
+        {/* Centre label */}
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+          <p className="font-display text-lg font-bold tracking-tight text-white">GIITX</p>
+          <p className="text-[11px] uppercase tracking-[0.22em] text-white/50">Full-cycle</p>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
 
 export default function Hero() {
   return (
     <section id="top" className="relative overflow-hidden bg-ink-950">
-      {/* Backdrop: grid + orange glows */}
-      <div className="bg-grid-dark absolute inset-0" aria-hidden="true" />
-      <div
-        className="absolute -left-40 -top-40 h-[34rem] w-[34rem] rounded-full bg-brand-500/25 blur-[140px]"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute -bottom-48 right-[-10%] h-[30rem] w-[30rem] rounded-full bg-brand-600/20 blur-[140px]"
-        aria-hidden="true"
-      />
-      <div className="bg-dots absolute right-[8%] top-[18%] hidden h-40 w-64 opacity-60 lg:block" aria-hidden="true" />
+      <InterlockBackdrop />
 
       <div className="relative mx-auto grid max-w-7xl gap-14 px-5 pb-24 pt-36 sm:px-8 md:pt-44 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:pb-32">
         {/* Copy */}
@@ -67,6 +125,25 @@ export default function Hero() {
             millions of users — we design, engineer and grow the platforms
             ambitious teams run on.
           </motion.p>
+
+          {/* Service nodes — mobile / tablet, where the large visual is hidden */}
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            animate="show"
+            custom={2}
+            className="mt-7 flex flex-wrap gap-2 lg:hidden"
+          >
+            {["Web", "Mobile", "Cloud", "AI"].map((label) => (
+              <span
+                key={label}
+                className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-sm font-semibold text-white/85"
+              >
+                <span className="h-2 w-2 rounded-full bg-brand-500" />
+                {label}
+              </span>
+            ))}
+          </motion.div>
 
           <motion.div
             variants={fadeUp}
@@ -112,45 +189,7 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        {/* Floating code window */}
-        <motion.div
-          initial={{ opacity: 0, y: 40, rotate: 1 }}
-          animate={{ opacity: 1, y: 0, rotate: 0 }}
-          transition={{ duration: 1, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
-          className="relative hidden lg:block"
-        >
-          <div className="animate-float rounded-2xl border border-white/10 bg-ink-900/80 p-0 shadow-[0_30px_80px_rgba(0,0,0,0.6)] backdrop-blur">
-            <div className="flex items-center gap-2 border-b border-white/10 px-5 py-3.5">
-              <span className="h-3 w-3 rounded-full bg-[#FF5F57]" />
-              <span className="h-3 w-3 rounded-full bg-[#FEBC2E]" />
-              <span className="h-3 w-3 rounded-full bg-[#28C840]" />
-              <span className="ml-3 font-mono text-xs text-white/40">giitx — build.ts</span>
-            </div>
-            <div className="space-y-3 p-6 font-mono text-sm">
-              {CODE_LINES.map((l) => (
-                <div key={l.n} className="flex gap-4">
-                  <span className="w-6 select-none text-white/25">{l.n}</span>
-                  <span className={l.c}>{l.code}</span>
-                </div>
-              ))}
-            </div>
-            <div className="flex items-center justify-between border-t border-white/10 px-6 py-4">
-              <span className="font-mono text-xs text-white/40">✓ build successful</span>
-              <span className="rounded-full bg-brand-500/15 px-3 py-1 font-mono text-xs font-semibold text-brand-400">
-                deploy: production
-              </span>
-            </div>
-          </div>
-          {/* Floating badges */}
-          <div className="absolute -left-10 top-10 animate-float rounded-xl border border-white/10 bg-ink-800 px-4 py-3 shadow-xl [animation-delay:1.2s]">
-            <p className="font-display text-xl font-bold text-white">99.9%</p>
-            <p className="text-xs text-white/50">uptime SLA</p>
-          </div>
-          <div className="absolute -bottom-6 right-6 animate-float rounded-xl border border-white/10 bg-ink-800 px-4 py-3 shadow-xl [animation-delay:2.1s]">
-            <p className="font-display text-xl font-bold text-brand-500">24/7</p>
-            <p className="text-xs text-white/50">support & monitoring</p>
-          </div>
-        </motion.div>
+        <InterlockVisual />
       </div>
 
       {/* Scroll cue */}
