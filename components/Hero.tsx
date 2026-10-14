@@ -56,7 +56,7 @@ function InterlockVisual() {
       className="relative hidden lg:block"
       aria-hidden="true"
     >
-      <div className="relative mx-auto aspect-square max-w-[540px]">
+      <div className="relative mx-auto aspect-square max-w-[540px] rounded-[2rem] border border-white/10 bg-white/[0.04] p-4 shadow-[0_24px_60px_rgba(0,0,0,0.45)] backdrop-blur-xl">
         <svg className="absolute inset-0 h-full w-full" viewBox="0 0 560 560" fill="none">
           {/* Interlocking loops — white + orange, from the GIITX mark */}
           <circle cx="230" cy="280" r="175" stroke="#ffffff" strokeOpacity="0.22" strokeWidth="2" />
@@ -77,7 +77,7 @@ function InterlockVisual() {
         {NODES.map((n) => (
           <span
             key={n.label}
-            className={`absolute flex items-center gap-2 rounded-full border border-white/15 bg-ink-900/90 px-4 py-2 text-sm font-semibold text-white shadow-[0_16px_40px_rgba(0,0,0,0.45)] backdrop-blur ${n.className}`}
+            className={`absolute flex items-center gap-2 rounded-full border border-white/20 bg-white/[0.08] px-4 py-2 text-sm font-semibold text-white shadow-[0_16px_40px_rgba(0,0,0,0.45)] backdrop-blur-xl ${n.className}`}
           >
             <span className={`h-2.5 w-2.5 rounded-full ${n.dot}`} />
             {n.label}
@@ -96,8 +96,10 @@ function InterlockVisual() {
 
 export default function Hero() {
   return (
-    <section id="top" className="relative overflow-hidden bg-ink-950">
+    <section id="top" className="relative overflow-hidden bg-gradient-to-b from-ink-950 via-ink-900 to-ink-950">
       <InterlockBackdrop />
+      {/* Black glass sheen */}
+      <div className="pointer-events-none absolute inset-0 bg-white/[0.02]" aria-hidden="true" />
 
       <div className="relative mx-auto grid max-w-7xl gap-14 px-5 pb-24 pt-36 sm:px-8 md:pt-44 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:pb-32">
         {/* Copy */}
@@ -143,7 +145,7 @@ export default function Hero() {
             {["Web", "Mobile", "Cloud", "AI"].map((label) => (
               <span
                 key={label}
-                className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-sm font-semibold text-white/85"
+                className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/[0.08] px-4 py-1.5 text-sm font-semibold text-white/85 backdrop-blur-xl"
               >
                 <span className="h-2 w-2 rounded-full bg-brand-500" />
                 {label}
@@ -167,7 +169,7 @@ export default function Hero() {
             </Link>
             <Link
               href="#services"
-              className="rounded-full border border-white/20 px-8 py-3.5 text-base font-semibold text-white/85 transition-colors hover:border-brand-500 hover:text-brand-400"
+              className="rounded-full border border-white/20 bg-white/[0.06] px-8 py-3.5 text-base font-semibold text-white/85 backdrop-blur-xl transition-colors hover:border-brand-500 hover:text-brand-400"
             >
               Explore services
             </Link>

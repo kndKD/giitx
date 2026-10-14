@@ -4,8 +4,8 @@ import StatsBar from "@/components/StatsBar";
 import Services from "@/components/Services";
 import Process from "@/components/Process";
 import TechStack from "@/components/TechStack";
-import Testimonials from "@/components/Testimonials";
 import CTA from "@/components/CTA";
+import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -17,8 +17,8 @@ export default function Home() {
       <Services />
       <Process />
       <TechStack />
-      <Testimonials />
       <CTA />
+      <Contact />
       <Footer />
     </main>
   );

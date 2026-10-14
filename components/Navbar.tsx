@@ -8,7 +8,7 @@ const LINKS = [
   { label: "Services", href: "#services" },
   { label: "Process", href: "#process" },
   { label: "Stack", href: "#stack" },
-  { label: "Why us", href: "#why-us" },
+  { label: "Contact", href: "#contact" },
 ];
 
 export default function Navbar() {
@@ -26,7 +26,7 @@ export default function Navbar() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-ink-950/90 backdrop-blur-md border-b border-white/10 py-3"
+          ? "border-b border-white/10 bg-black/60 py-3 shadow-[0_16px_40px_rgba(0,0,0,0.35)] backdrop-blur-xl"
           : "bg-transparent py-5"
       }`}
     >
@@ -76,7 +76,7 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="border-t border-white/10 bg-ink-950/95 px-5 pb-6 pt-4 backdrop-blur-md md:hidden">
+        <div className="border-t border-white/10 bg-black/80 px-5 pb-6 pt-4 shadow-[0_20px_50px_rgba(0,0,0,0.45)] backdrop-blur-xl md:hidden">
           <ul className="flex flex-col gap-4">
             {LINKS.map((l) => (
               <li key={l.href}>

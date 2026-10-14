@@ -63,6 +63,9 @@ export default function StatsBar() {
           </div>
         ))}
       </div>
+      <p className="relative mx-auto max-w-7xl px-5 pb-6 text-center text-xs text-white/70 sm:px-8">
+        Illustrative figures — replace with verified numbers.
+      </p>
     </section>
   );
 }
