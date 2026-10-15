@@ -13,69 +13,122 @@ const fadeUp = {
 };
 
 /**
- * Logo-waves hero (approved — replaces Design A Interlock).
- * No loops, no card, no Web/Mobile/Cloud/AI nodes, no grid, no dots,
- * no code window. The official GIITX logo (same asset as Logo.jsx:
- * public/logo.png, white wordmark for the dark hero) sits centred, with
- * three concentric orange ripple waves emanating from it — expanding and
- * fading, subtle and slow. The waves are decorative (aria-hidden) and
- * live only inside the visual, never behind the copy.
+ * Transmission Flow hero (approved — replaces the rejected circles/waves).
+ * No circles, no rings, no arcs, no background waves, no decorative glow.
+ * The official GIITX logo (public/logo.png, white wordmark) is the
+ * structure — its orange + white interlocking paths become the circuit.
+ * Small glowing pulses travel ALONG the logo's own lines between the 5
+ * user-marked points, like data packets:
+ *   Top orange tip -> Right orange tip -> Bottom white segment
+ *   -> Left orange edge -> Center gap / white node -> Top orange tip
+ * Each marked node flashes briefly on arrival, with a faint glow trail
+ * behind the pulse showing the transmission route.
  *
- * Mobile: compact visual below the copy, smaller/fainter waves, clean
- * solid background, no overlap, no horizontal overflow.
- * Reduced motion: static rings, no looping animation.
+ * Mobile: pulses smaller/subtler, clean solid background, no overlap.
+ * Reduced motion: static logo, no pulses.
  */
-const WAVES = [
-  { delay: 0, opacity: 0.5 },
-  { delay: 1.1, opacity: 0.35 },
-  { delay: 2.2, opacity: 0.2 },
+const NODES = [
+  { id: "top", x: 142, y: 28, fill: "#FF6A00", label: "Top orange tip" },
+  { id: "right", x: 176, y: 92, fill: "#FF6A00", label: "Right orange tip" },
+  { id: "bottom", x: 108, y: 172, fill: "#FFFFFF", label: "Bottom white segment" },
+  { id: "left", x: 32, y: 108, fill: "#FF6A00", label: "Left orange edge" },
+  { id: "center", x: 102, y: 102, fill: "#FFFFFF", label: "Center gap / white node" },
 ];
 
-function LogoWavesVisual() {
+const ROUTES = [
+  { id: "route-top-right", d: "M 142 28 Q 168 48 176 92", stroke: "#FF6A00", begin: "0s", dur: "4s" },
+  { id: "route-right-bottom", d: "M 176 92 Q 172 138 108 172", stroke: "#FFFFFF", begin: "0.8s", dur: "4s" },
+  { id: "route-bottom-left", d: "M 108 172 Q 62 162 32 108", stroke: "#FF6A00", begin: "1.6s", dur: "4s" },
+  { id: "route-left-center", d: "M 32 108 Q 62 100 102 102", stroke: "#FFFFFF", begin: "2.4s", dur: "4s" },
+  { id: "route-center-top", d: "M 102 102 Q 122 60 142 28", stroke: "#FF6A00", begin: "3.2s", dur: "4s" },
+];
+
+function TransmissionFlowVisual() {
   const reduceMotion = useReducedMotion();
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
-      className="relative mx-auto flex h-64 w-full max-w-sm items-center justify-center sm:h-80 lg:h-[30rem] lg:max-w-none"
+      className="relative mx-auto flex h-64 w-full max-w-sm flex-col items-center justify-center sm:h-80 lg:h-[30rem] lg:max-w-none"
       aria-hidden="true"
     >
-      {/* Soft disc behind the logo — part of the emanation, kept subtle */}
-      <div className="absolute left-1/2 top-1/2 h-48 w-48 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-500/10 blur-2xl sm:h-64 sm:w-64" />
-
-      {/* Emanating waves */}
-      <div className="absolute left-1/2 top-1/2 h-44 w-44 -translate-x-1/2 -translate-y-1/2 sm:h-56 sm:w-56 lg:h-72 lg:w-72">
-        {WAVES.map((w, i) => (
-          <motion.span
-            key={i}
-            className="absolute inset-0 rounded-full border-2 border-brand-500"
-            initial={{ scale: 0.55, opacity: w.opacity }}
-            animate={
-              reduceMotion
-                ? { scale: 1, opacity: w.opacity * 0.6 }
-                : { scale: [0.55, 1.5], opacity: [w.opacity, 0] }
-            }
-            transition={
-              reduceMotion
-                ? { duration: 0 }
-                : { duration: 3.3, repeat: Infinity, delay: w.delay, ease: "easeOut" }
-            }
-          />
-        ))}
-      </div>
-
-      {/* Official GIITX logo — icon mark + white wordmark, centred */}
-      <div className="relative z-10 flex flex-col items-center gap-3 drop-shadow-[0_8px_24px_rgba(0,0,0,0.45)]">
+      {/* Logo mark + transmission overlay. SVG is sized exactly to the mark so pulses follow the logo geometry. */}
+      <div className="relative h-44 w-44 sm:h-56 sm:w-56 lg:h-64 lg:w-64">
         <img
           src="/logo.png"
           alt=""
-          className="h-16 w-auto object-contain sm:h-20 lg:h-24"
+          className="h-full w-full object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.45)]"
         />
-        <span className="font-display text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
-          GIITX
-        </span>
+        {!reduceMotion && (
+          <svg
+            viewBox="0 0 200 200"
+            className="absolute inset-0 h-full w-full overflow-visible"
+            fill="none"
+            role="img"
+            aria-label="Transmission pulses travelling between the marked points on the GIITX logo"
+          >
+            {/* Faint transmission routes following the logo paths */}
+            {ROUTES.map((r) => (
+              <path
+                key={r.id}
+                id={r.id}
+                d={r.d}
+                stroke={r.stroke}
+                strokeOpacity="0.35"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+              />
+            ))}
+
+            {/* Travelling pulses + glow trail */}
+            {ROUTES.map((r) => (
+              <g key={`${r.id}-pulse`}>
+                <circle r="7" fill={r.stroke} opacity="0.22">
+                  <animateMotion dur={r.dur} begin={r.begin} repeatCount="indefinite">
+                    <mpath href={`#${r.id}`} />
+                  </animateMotion>
+                </circle>
+                <circle r="3.5" fill={r.stroke}>
+                  <animateMotion dur={r.dur} begin={r.begin} repeatCount="indefinite">
+                    <mpath href={`#${r.id}`} />
+                  </animateMotion>
+                </circle>
+              </g>
+            ))}
+
+            {/* Marked nodes — flash briefly when a pulse arrives */}
+            {NODES.map((n, i) => (
+              <g key={n.id}>
+                <circle cx={n.x} cy={n.y} r="5" fill={n.fill} stroke="#0A0A0A" strokeWidth="1">
+                  <animate
+                    attributeName="opacity"
+                    values="0.45;1;0.45"
+                    dur="4s"
+                    begin={`${i * 0.8}s`}
+                    repeatCount="indefinite"
+                  />
+                </circle>
+                <circle cx={n.x} cy={n.y} r="9" fill={n.fill} opacity="0.15">
+                  <animate
+                    attributeName="opacity"
+                    values="0;0.3;0"
+                    dur="4s"
+                    begin={`${i * 0.8}s`}
+                    repeatCount="indefinite"
+                  />
+                </circle>
+                <title>{n.label}</title>
+              </g>
+            ))}
+          </svg>
+        )}
       </div>
+
+      {/* White GIITX wordmark — unchanged */}
+      <span className="mt-3 font-display text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
+        GIITX
+      </span>
     </motion.div>
   );
 }
@@ -163,7 +216,7 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        <LogoWavesVisual />
+        <TransmissionFlowVisual />
       </div>
 
       {/* Scroll cue */}
