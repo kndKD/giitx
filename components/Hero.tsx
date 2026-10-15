@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 
 const fadeUp = {
@@ -12,83 +12,69 @@ const fadeUp = {
   }),
 };
 
-const NODES = [
-  { label: "Web", className: "left-1/2 top-2 -translate-x-1/2", dot: "bg-brand-500" },
-  { label: "Mobile", className: "right-0 top-1/2 -translate-y-1/2", dot: "bg-white" },
-  { label: "Cloud", className: "bottom-2 left-1/2 -translate-x-1/2", dot: "bg-brand-500" },
-  { label: "AI", className: "left-0 top-1/2 -translate-y-1/2", dot: "bg-white" },
+/**
+ * Logo-waves hero (approved — replaces Design A Interlock).
+ * No loops, no card, no Web/Mobile/Cloud/AI nodes, no grid, no dots,
+ * no code window. The official GIITX logo (same asset as Logo.jsx:
+ * public/logo.png, white wordmark for the dark hero) sits centred, with
+ * three concentric orange ripple waves emanating from it — expanding and
+ * fading, subtle and slow. The waves are decorative (aria-hidden) and
+ * live only inside the visual, never behind the copy.
+ *
+ * Mobile: compact visual below the copy, smaller/fainter waves, clean
+ * solid background, no overlap, no horizontal overflow.
+ * Reduced motion: static rings, no looping animation.
+ */
+const WAVES = [
+  { delay: 0, opacity: 0.5 },
+  { delay: 1.1, opacity: 0.35 },
+  { delay: 2.2, opacity: 0.2 },
 ];
 
-/**
- * Design A — Interlock hero.
- * No grid, no dots, no code window, no generic glows.
- * The backdrop is GIITX's own logo geometry: two interlocking loops
- * (white + orange) with a single orange pulse travelling along the loop,
- * and four service nodes on the loop: Web, Mobile, Cloud, AI.
- *
- * Mobile fix: the backdrop loops are desktop-only (hidden below lg).
- * On mobile the 42rem-wide SVG sat behind the headline, subcopy,
- * pills and buttons, with loop lines crossing the text — not friendly.
- * Mobile already shows the Web/Mobile/Cloud/AI pills, so it gets a
- * clean solid background instead.
- */
-function InterlockBackdrop() {
-  return (
-    <div className="pointer-events-none absolute inset-0 hidden lg:block" aria-hidden="true">
-      <svg
-        className="absolute -right-24 top-1/2 h-[42rem] w-[42rem] -translate-y-1/2 opacity-[0.16] lg:right-[-4rem] lg:h-[52rem] lg:w-[52rem]"
-        viewBox="0 0 560 560"
-        fill="none"
-      >
-        <circle cx="230" cy="280" r="175" stroke="#ffffff" strokeWidth="1.5" />
-        <circle cx="330" cy="280" r="175" stroke="#FF6A00" strokeWidth="1.5" />
-      </svg>
-    </div>
-  );
-}
-
-function InterlockVisual() {
+function LogoWavesVisual() {
+  const reduceMotion = useReducedMotion();
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
-      className="relative hidden lg:block"
+      className="relative mx-auto flex h-64 w-full max-w-sm items-center justify-center sm:h-80 lg:h-[30rem] lg:max-w-none"
       aria-hidden="true"
     >
-      <div className="relative mx-auto aspect-square max-w-[540px] rounded-[2rem] border border-white/10 bg-white/[0.04] p-4 shadow-[0_24px_60px_rgba(0,0,0,0.45)] backdrop-blur-xl">
-        <svg className="absolute inset-0 h-full w-full" viewBox="0 0 560 560" fill="none">
-          {/* Interlocking loops — white + orange, from the GIITX mark */}
-          <circle cx="230" cy="280" r="175" stroke="#ffffff" strokeOpacity="0.22" strokeWidth="2" />
-          <circle cx="330" cy="280" r="175" stroke="#FF6A00" strokeOpacity="0.55" strokeWidth="2" />
-          {/* Centre junction — where the loops interlock */}
-          <circle cx="280" cy="280" r="52" stroke="#ffffff" strokeOpacity="0.18" strokeWidth="1.5" />
-          <circle cx="280" cy="280" r="6" fill="#FF6A00" />
-          {/* Orange pulse travelling along the orange loop */}
-          <circle r="7" fill="#FF6A00">
-            <animateMotion dur="7s" repeatCount="indefinite" path="M 330 105 a 175 175 0 1 0 0.0001 0" />
-          </circle>
-          <circle r="3.5" fill="#ffffff">
-            <animateMotion dur="9s" begin="1.5s" repeatCount="indefinite" path="M 230 105 a 175 175 0 1 0 0.0001 0" />
-          </circle>
-        </svg>
+      {/* Soft disc behind the logo — part of the emanation, kept subtle */}
+      <div className="absolute left-1/2 top-1/2 h-48 w-48 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-500/10 blur-2xl sm:h-64 sm:w-64" />
 
-        {/* Service nodes on the loop */}
-        {NODES.map((n) => (
-          <span
-            key={n.label}
-            className={`absolute flex items-center gap-2 rounded-full border border-white/20 bg-white/[0.08] px-4 py-2 text-sm font-semibold text-white shadow-[0_16px_40px_rgba(0,0,0,0.45)] backdrop-blur-xl ${n.className}`}
-          >
-            <span className={`h-2.5 w-2.5 rounded-full ${n.dot}`} />
-            {n.label}
-          </span>
+      {/* Emanating waves */}
+      <div className="absolute left-1/2 top-1/2 h-44 w-44 -translate-x-1/2 -translate-y-1/2 sm:h-56 sm:w-56 lg:h-72 lg:w-72">
+        {WAVES.map((w, i) => (
+          <motion.span
+            key={i}
+            className="absolute inset-0 rounded-full border-2 border-brand-500"
+            initial={{ scale: 0.55, opacity: w.opacity }}
+            animate={
+              reduceMotion
+                ? { scale: 1, opacity: w.opacity * 0.6 }
+                : { scale: [0.55, 1.5], opacity: [w.opacity, 0] }
+            }
+            transition={
+              reduceMotion
+                ? { duration: 0 }
+                : { duration: 3.3, repeat: Infinity, delay: w.delay, ease: "easeOut" }
+            }
+          />
         ))}
+      </div>
 
-        {/* Centre label */}
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-          <p className="font-display text-lg font-bold tracking-tight text-white">GIITX</p>
-          <p className="text-[11px] uppercase tracking-[0.22em] text-white/50">Full-cycle</p>
-        </div>
+      {/* Official GIITX logo — icon mark + white wordmark, centred */}
+      <div className="relative z-10 flex flex-col items-center gap-3 drop-shadow-[0_8px_24px_rgba(0,0,0,0.45)]">
+        <img
+          src="/logo.png"
+          alt=""
+          className="h-16 w-auto object-contain sm:h-20 lg:h-24"
+        />
+        <span className="font-display text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
+          GIITX
+        </span>
       </div>
     </motion.div>
   );
@@ -97,12 +83,11 @@ function InterlockVisual() {
 export default function Hero() {
   return (
     <section id="top" className="relative overflow-hidden bg-gradient-to-b from-ink-950 via-ink-900 to-ink-950">
-      <InterlockBackdrop />
       {/* Black glass sheen */}
       <div className="pointer-events-none absolute inset-0 bg-white/[0.02]" aria-hidden="true" />
 
       <div className="relative mx-auto grid max-w-7xl gap-14 px-5 pb-24 pt-36 sm:px-8 md:pt-44 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:pb-32">
-        {/* Copy */}
+        {/* Copy — unchanged */}
         <div>
           <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0}>
             <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/40 bg-brand-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-brand-400">
@@ -133,25 +118,6 @@ export default function Hero() {
             millions of users — we design, engineer and grow the platforms
             ambitious teams run on.
           </motion.p>
-
-          {/* Service nodes — mobile / tablet, where the large visual is hidden */}
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            animate="show"
-            custom={2}
-            className="mt-7 flex flex-wrap gap-2 lg:hidden"
-          >
-            {["Web", "Mobile", "Cloud", "AI"].map((label) => (
-              <span
-                key={label}
-                className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/[0.08] px-4 py-1.5 text-sm font-semibold text-white/85 backdrop-blur-xl"
-              >
-                <span className="h-2 w-2 rounded-full bg-brand-500" />
-                {label}
-              </span>
-            ))}
-          </motion.div>
 
           <motion.div
             variants={fadeUp}
@@ -197,7 +163,7 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        <InterlockVisual />
+        <LogoWavesVisual />
       </div>
 
       {/* Scroll cue */}
